@@ -1,0 +1,820 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Y Hoa - Hệ thống xác thực hiện đại và bảo mật cao">
+    <meta name="keywords" content="Y Hoa, đăng nhập, đăng ký, xác thực, bảo mật">
+    <meta name="author" content="Y Hoa Team">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://your-domain.com/">
+    <meta property="og:title" content="Y Hoa - Hệ thống xác thực cao cấp">
+    <meta property="og:description" content="Website chính thức của Y Hoa với hệ thống xác thực hiện đại">
+    <meta property="og:image" content="https://your-domain.com/preview.png">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://your-domain.com/">
+    <meta property="twitter:title" content="Y Hoa - Hệ thống xác thực cao cấp">
+    <meta property="twitter:description" content="Website chính thức của Y Hoa với hệ thống xác thực hiện đại">
+    
+    <title>Y Hoa - Hệ thống xác thực cao cấp</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌸</text></svg>">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-gradient: linear-gradient(-45deg, #667eea, #764ba2, #f093fb, #f5576c);
+            --glass-bg: rgba(255, 255, 255, 0.1);
+            --glass-border: rgba(255, 255, 255, 0.2);
+            --success-color: #6bcf7f;
+            --error-color: #ff6b6b;
+            --warning-color: #ffd93d;
+            --text-primary: white;
+            --text-secondary: rgba(255, 255, 255, 0.8);
+            --shadow-primary: 0 25px 50px rgba(0, 0, 0, 0.2);
+            --border-radius: 12px;
+            --border-radius-lg: 24px;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--primary-gradient);
+            background-size: 400% 400%;
+            animation: gradientShift 15s ease infinite;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Background Effects */
+        .bg-effects {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .particle {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .particle:nth-child(odd) {
+            animation-delay: -3s;
+        }
+
+        @keyframes float {
+            0%, 100% { 
+                transform: translateY(0) rotate(0deg); 
+                opacity: 0.7; 
+            }
+            50% { 
+                transform: translateY(-20px) rotate(180deg); 
+                opacity: 1; 
+            }
+        }
+
+        .geometric-shape {
+            position: absolute;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            animation: rotate 20s linear infinite;
+        }
+
+        .geometric-shape.triangle {
+            width: 0;
+            height: 0;
+            border-left: 25px solid transparent;
+            border-right: 25px solid transparent;
+            border-bottom: 43px solid rgba(255, 255, 255, 0.05);
+            border-radius: 0;
+        }
+
+        .geometric-shape.circle {
+            border-radius: 50%;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        /* Main Container */
+        .main-container {
+            position: relative;
+            z-index: 10;
+            width: 100%;
+            max-width: 450px;
+            padding: 20px;
+        }
+
+        .auth-container {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--border-radius-lg);
+            padding: 40px;
+            box-shadow: var(--shadow-primary);
+            position: relative;
+            overflow: hidden;
+            transform: scale(0.9);
+            animation: slideInScale 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
+        }
+
+        @keyframes slideInScale {
+            to { transform: scale(1); }
+        }
+
+        .auth-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            animation: shine 4s infinite;
+        }
+
+        @keyframes shine {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+
+        /* Header */
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            position: relative;
+        }
+
+        .logo {
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 15px;
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+            animation: logoFloat 3s ease-in-out infinite;
+            position: relative;
+        }
+
+        .logo::before {
+            content: '🌸';
+            font-size: 32px;
+        }
+
+        .logo::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            opacity: 0.3;
+            z-index: -1;
+            animation: pulseRing 2s ease-out infinite;
+        }
+
+        @keyframes logoFloat {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
+
+        @keyframes pulseRing {
+            0% { transform: scale(1); opacity: 0.3; }
+            100% { transform: scale(1.5); opacity: 0; }
+        }
+
+        .brand-name {
+            color: var(--text-primary);
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .brand-slogan {
+            color: var(--text-secondary);
+            font-size: 16px;
+            font-weight: 300;
+            margin-bottom: 10px;
+        }
+
+        .form-title {
+            color: var(--text-primary);
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .form-subtitle {
+            color: var(--text-secondary);
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        /* Form Styles */
+        .auth-form {
+            margin-bottom: 25px;
+        }
+
+        .input-group {
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        .input-icon {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 18px;
+            z-index: 2;
+            transition: all 0.3s ease;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 16px 16px 16px 48px;
+            background: var(--glass-bg);
+            border: 2px solid var(--glass-border);
+            border-radius: var(--border-radius);
+            color: var(--text-primary);
+            font-size: 16px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            backdrop-filter: blur(10px);
+        }
+
+        .form-input::placeholder {
+            color: rgba(255, 255, 255, 0.6);
+            transition: all 0.3s ease;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: #667eea;
+            background: rgba(255, 255, 255, 0.15);
+            box-shadow: 0 0 20px rgba(102, 126, 234, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .form-input:focus + .input-icon {
+            color: #667eea;
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        .password-toggle {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: rgba(255, 255, 255, 0.6);
+            cursor: pointer;
+            font-size: 18px;
+            transition: all 0.3s ease;
+            z-index: 2;
+        }
+
+        .password-toggle:hover {
+            color: var(--text-primary);
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        /* Password Strength */
+        .strength-meter {
+            height: 4px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 2px;
+            margin-top: 8px;
+            overflow: hidden;
+            transition: opacity 0.3s ease;
+        }
+
+        .strength-bar {
+            height: 100%;
+            width: 0%;
+            border-radius: 2px;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .strength-weak { background: var(--error-color); width: 25%; }
+        .strength-medium { background: var(--warning-color); width: 50%; }
+        .strength-strong { background: var(--success-color); width: 75%; }
+        .strength-very-strong { 
+            background: linear-gradient(90deg, var(--success-color), #4ecdc4); 
+            width: 100%; 
+        }
+
+        .strength-text {
+            font-size: 12px;
+            margin-top: 5px;
+            transition: all 0.3s ease;
+        }
+
+        /* Buttons */
+        .submit-btn {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border: none;
+            border-radius: var(--border-radius);
+            color: var(--text-primary);
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            margin: 20px 0 15px 0;
+            z-index: 1;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 35px rgba(102, 126, 234, 0.4);
+        }
+
+        .submit-btn:active {
+            transform: translateY(-1px);
+        }
+
+        .submit-btn.loading {
+            pointer-events: none;
+            opacity: 0.8;
+        }
+
+        .submit-btn.loading::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            animation: loading 1.5s infinite;
+        }
+
+        @keyframes loading {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+
+        /* Links & Toggles */
+        .forgot-password {
+            text-align: right;
+            margin: 10px 0;
+        }
+
+        .forgot-password a {
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            font-size: 13px;
+            transition: all 0.3s ease;
+        }
+
+        .forgot-password a:hover {
+            color: var(--text-primary);
+            text-decoration: underline;
+        }
+
+        .toggle-form {
+            text-align: center;
+            margin: 25px 0;
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+
+        .toggle-link {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .toggle-link:hover {
+            color: var(--text-primary);
+        }
+
+        .toggle-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -2px;
+            left: 50%;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            transition: all 0.3s ease;
+            transform: translateX(-50%);
+        }
+
+        .toggle-link:hover::after {
+            width: 100%;
+        }
+
+        /* Social Login */
+        .divider {
+            display: flex;
+            align-items: center;
+            margin: 25px 0;
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+
+        .divider::before,
+        .divider::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: var(--glass-border);
+        }
+
+        .divider span {
+            margin: 0 20px;
+            background: var(--glass-bg);
+            padding: 0 10px;
+        }
+
+        .social-login {
+            display: flex;
+            gap: 10px;
+        }
+
+        .social-btn {
+            flex: 1;
+            padding: 12px;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--border-radius);
+            color: var(--text-primary);
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            backdrop-filter: blur(10px);
+        }
+
+        .social-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Messages */
+        .message {
+            margin-top: 20px;
+            padding: 14px;
+            border-radius: var(--border-radius);
+            text-align: center;
+            font-weight: 500;
+            opacity: 0;
+            transform: translateY(-10px);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            backdrop-filter: blur(10px);
+        }
+
+        .message.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .message.success {
+            background: rgba(108, 207, 127, 0.2);
+            color: var(--success-color);
+            border: 1px solid rgba(108, 207, 127, 0.3);
+        }
+
+        .message.error {
+            background: rgba(255, 107, 107, 0.2);
+            color: var(--error-color);
+            border: 1px solid rgba(255, 107, 107, 0.3);
+        }
+
+        .message.warning {
+            background: rgba(255, 217, 61, 0.2);
+            color: var(--warning-color);
+            border: 1px solid rgba(255, 217, 61, 0.3);
+        }
+
+        /* Footer */
+        .footer {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: var(--text-secondary);
+            font-size: 12px;
+            text-align: center;
+            z-index: 5;
+        }
+
+        .footer a {
+            color: var(--text-primary);
+            text-decoration: none;
+            transition: opacity 0.3s ease;
+        }
+
+        .footer a:hover {
+            opacity: 0.8;
+        }
+
+        /* Loading Overlay */
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+        }
+
+        .loading-spinner {
+            width: 50px;
+            height: 50px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-top: 3px solid var(--text-primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 480px) {
+            .main-container {
+                padding: 15px;
+            }
+            
+            .auth-container {
+                padding: 30px 25px;
+            }
+            
+            .form-title {
+                font-size: 24px;
+            }
+            
+            .brand-name {
+                font-size: 28px;
+            }
+        }
+
+        @media (max-width: 360px) {
+            .auth-container {
+                padding: 25px 20px;
+            }
+        }
+
+        /* Accessibility & Reduced Motion */
+        @media (prefers-reduced-motion: reduce) {
+            *,
+            *::before,
+            *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+
+        /* Focus Management */
+        .form-input:focus,
+        .submit-btn:focus,
+        .social-btn:focus,
+        .toggle-link:focus {
+            outline: 2px solid #667eea;
+            outline-offset: 2px;
+        }
+
+        /* High Contrast Mode */
+        @media (prefers-contrast: high) {
+            .auth-container {
+                border: 2px solid white;
+            }
+            
+            .form-input {
+                border: 2px solid white;
+            }
+        }
+
+        /* Print Styles */
+        @media print {
+            .bg-effects,
+            .footer {
+                display: none !important;
+            }
+            
+            body {
+                background: white !important;
+                color: black !important;
+            }
+            
+            .auth-container {
+                background: white !important;
+                color: black !important;
+                box-shadow: none !important;
+                border: 2px solid black !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-effects" id="bgEffects"></div>
+    
+    <div class="main-container">
+        <div class="auth-container">
+            <div class="header">
+                <div class="logo"></div>
+                <h1 class="brand-name">Y Hoa</h1>
+                <p class="brand-slogan">Hệ thống xác thực cao cấp</p>
+                <h2 class="form-title" id="formTitle">Đăng nhập</h2>
+                <p class="form-subtitle" id="formSubtitle">Chào mừng bạn trở lại! Vui lòng đăng nhập để tiếp tục.</p>
+            </div>
+
+            <form class="auth-form" id="authForm" novalidate>
+                <div class="input-group">
+                    <input 
+                        type="text" 
+                        id="username" 
+                        class="form-input" 
+                        placeholder="Tên đăng nhập"
+                        autocomplete="username"
+                        required
+                        aria-label="Tên đăng nhập"
+                    />
+                    <span class="input-icon" aria-hidden="true">👤</span>
+                </div>
+
+                <div class="input-group">
+                    <input 
+                        type="password" 
+                        id="password" 
+                        class="form-input" 
+                        placeholder="Mật khẩu"
+                        autocomplete="current-password"
+                        required
+                        aria-label="Mật khẩu"
+                    />
+                    <span class="input-icon" aria-hidden="true">🔒</span>
+                    <button type="button" class="password-toggle" onclick="togglePassword()" aria-label="Hiển thị/ẩn mật khẩu">👁️</button>
+                    
+                    <div class="strength-meter" id="strengthMeter" style="display: none;">
+                        <div class="strength-bar" id="strengthBar"></div>
+                    </div>
+                    <div class="strength-text" id="strengthText" style="display: none;"></div>
+                </div>
+
+                <div class="forgot-password" id="forgotPassword">
+                    <a href="#" onclick="forgotPassword(event)">Quên mật khẩu?</a>
+                </div>
+
+                <button type="submit" class="submit-btn" id="submitBtn">
+                    <span id="btnText">Đăng nhập</span>
+                </button>
+            </form>
+
+            <div class="toggle-form">
+                <span id="toggleText">Chưa có tài khoản?</span>
+                <a class="toggle-link" onclick="toggleForm()" id="toggleLink" tabindex="0">Đăng ký ngay</a>
+            </div>
+
+            <div class="divider">
+                <span>Hoặc tiếp tục với</span>
+            </div>
+
+            <div class="social-login">
+                <button class="social-btn" onclick="socialLogin('google')" type="button">
+                    🔍 Google
+                </button>
+                <button class="social-btn" onclick="socialLogin('facebook')" type="button">
+                    📘 Facebook
+                </button>
+            </div>
+
+            <div class="message" id="message" role="alert" aria-live="polite"></div>
+        </div>
+    </div>
+
+    <div class="footer">
+        <p>&copy; 2025 <a href="#" onclick="showAbout()">Y Hoa</a>. Được thiết kế với ❤️ tại Việt Nam</p>
+    </div>
+
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-spinner"></div>
+    </div>
+
+    <script>
+        // Khởi tạo ứng dụng
+        class YHoaAuth {
+            constructor() {
+                this.isLoginMode = true;
+                this.users = this.initializeUsers();
+                this.init();
+            }
+
+            init() {
+                this.createBackgroundEffects();
+                this.setupEventListeners();
+                this.setupAccessibility();
+                this.showWelcomeMessage();
+            }
+
+            initializeUsers() {
+                // Demo users (trong thực tế sẽ lấy từ API)
+                return {
+                    'admin': this.hashPassword('123456'),
+                    'yhoa': this.hashPassword('yhoa2025'),
+                    'demo': this.hashPassword('demo123'),
+                    'test': this.hashPassword('password')
+                };
+            }
+
+            createBackgroundEffects() {
+                const container = document.getElementById('bgEffects');
+                
+                // Tạo particles
+                for (let i = 0; i < 60; i++) {
+                    const particle = document.createElement('div');
+                    particle.className = 'particle';
+                    
+                    const size = Math.random() * 4 + 2;
+                    const x = Math.random() * 100;
+                    const y = Math.random() * 100;
+                    const duration = Math.random() * 4 + 4;
+                    
+                    particle.style.cssText = `
+                        width: ${size}px;
+                        height: ${size}px;
+                        left: ${x}%;
+                        top: ${y}%;
+                        animation-duration: ${duration}s;
+                        animation-delay: ${Math.random() * 2}s;
+                    `;
+                    
+                    container.appendChild(particle);
+                }
+
+                // Tạo geometric shapes
+                for (let i = 0; i < 8; i++) {
+                    const shape = document.createElement('div');
+                    const isCircle = Math.random() > 0.5;
+                    
+                    shape.className = `geometric-shape ${isCircle ? 'circle' : 'triangle'}`;
+                    
+                    const size = Math.random() * 50 + 20;
+                    const x = Math.random() * 100;
+                    const y = Math.random() * 100;
+                    const duration = Math.random() * 30 + 20;
+                    
+                    if (isCircle) {
+                        shape.style.cssText = `
+                            width: ${size}px;
+                            height: ${size}px;
+                            left: ${x}%;
+                            top: ${y}%;
+                            animation-duration: ${duration}s;
+                            animation-delay: ${Math.random() * 5}s;
+                        `;
+                    } else {
+                        shape.style.cssText = `
+                            left: ${x}%;
+                            top: ${y}%;
+                            animation-duration: ${duration}s;
+                            animation-delay: ${
